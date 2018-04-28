@@ -1,1 +1,19 @@
-theme: jekyll-theme-cayman
+title: 不在五行中
+description: 人生百年，如梦如幻。
+
+baseurl: "" # change this to the subpath of your site, e.g. /blog. Leave it empty if you don't need it.
+url: "https://rex11458.github.io" # change this to the base hostname & protocol for your site
+
+google_analytics:
+# cayman-blog date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+cayman-blog:
+  date_format: "%b %-d, %Y"
+
+theme: # leave it empty
+
+# social
+author: "Rex"
+image: /thumbnail-jumbo.png
+twitter:
+  username: rexwp11458

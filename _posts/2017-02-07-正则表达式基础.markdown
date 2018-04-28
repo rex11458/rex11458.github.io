@@ -1,0 +1,203 @@
+---
+layout: post
+title:  "正则表达式基础(一)"
+date:   2017-02-07 20:10:36 +0800
+categories: jekyll update
+permalink: "/regular-expression"
+
+---
+
+##### Egrep 元字符
+<style type="text/css">
+table {
+margin-top:10px;
+border-collapse:collapse;
+border:1px solid #ffffff;
+width:100%;
+}
+
+th {
+vertical-align:baseline;
+padding:5px 15px 0px 6px;
+background-color:#ffffff;
+border:1px solid #ffffff;
+text-align:left;
+color: #333333;
+}
+
+td {
+vertical-align:text-top;
+padding:6px 15px 6px 6px;
+background-color:#ffffff;
+border:1px solid #159957;
+color: #333333;
+font-family: courier new;
+}
+</style>
+
+<table>
+<tr>
+<th colspan="3" style="text-align: center">匹配单个字符的元字符</th>
+</tr>
+<tr>
+<th></th>
+<th>元字符</th>
+<th>匹配对象</th>
+</tr>
+<tr>
+<td>.</td>
+<td>点号</td>
+<td>匹配单个任意字符</td>
+</tr>
+<tr>
+<td>[...]</td>
+<td>字符组</td>
+<td>匹配单个列出的字符</td>
+</tr>
+<tr>
+<td>[^...]</td>
+<td>排除型字符组</td>
+<td>匹配单个未列出的字符</td>
+</tr>
+<tr>
+<td>\<i>char</i></td>
+<td>转义字符</td>
+<td>若<i>char</i>是元字符，或转义序列无特殊含义时，匹配<i>char</i></td>
+</tr>
+<tr>
+<th colspan="3" style="text-align: center">提供计数功能的元字符</th>
+</tr>
+<tr>
+<td>?</td>
+<td>问号</td>
+<td>容许匹配一次，但非必需</td>
+</tr>
+<tr>
+<td>*</td>
+<td>星号</td>
+<td>可以匹配任意多次，也可能不匹配</td>
+</tr>
+<tr>
+<td>+</td>
+<td>加号</td>
+<td>至少匹配一次，至多匹配任意次</td>
+</tr>
+<tr>
+<td>{<i>min,max</i>}</td>
+<td>区间量词</td>
+<td>至少匹配<i>min</i>次，至多匹配<i>max</i>次</td>
+</tr>
+<tr>
+<th colspan="3" style="text-align: center">其它元字符</th>
+</tr>
+<tr>
+<td>|</td>
+<td>或</td>
+<td>匹配任意分隔的表达式</td>
+</tr>
+<tr>
+<td>(...)</td>
+<td>括号</td>
+<td>限定多选结构的范围，标注量词作用的元素，为反向引用"捕获"文本</td>
+</tr>
+<tr>
+<td>\1,\2...</td>
+<td>反向引用</td>
+<td>匹配之前的第一、第二组括号内的字表达式匹配的文本</td>
+</tr>
+<tr>
+<td>{<i>min,max</i>}</td>
+<td>区间量词</td>
+<td>至少匹配<i>min</i>次，至多匹配<i>max</i>次</td>
+</tr>
+</table>  
+
+<br />
+
+<br />
+
+示例：
+
+    *"`^`"* 匹配 以某个字符开头的字符串
+    eg: "^cat";
+    "cathahaha";
+
+    "`$`"匹配 以某个字符结尾的字符串
+    eg: @"cat$";
+       "hahahacat";
+
+    "`[]`"匹配[]里的任一字符
+    eg:reg = @"gr[ea]y";
+      "grey gray";
+
+    "`|`" 或
+    eg:"gr(e|a)y";
+       "grey gray";
+
+    [^...］匹配除了...以为的任意字符
+    eg:"[^a-fA-F]";
+       "1";
+
+    "."通配符
+    eg:"03.19.76";
+       "03.19.76 03-19-76 03/19/76";
+
+    (...)?匹配...可有可无
+    eg:"colo(u)?r";
+        "colour color";
+
+    (...)+ 匹配...出现一次或多次
+    eg:"colo(u)+r";
+       "color colour ";
+
+    (...)* 匹配...出现任意次
+    eg:"colo(u)*r";
+       "color colour";
+
+    "(...)\1"  "\1"表示...匹配到的实际内容
+    eg:"([a-z])([0-9])\\1\\2";
+    "h1h1";
+
+<br />
+实际使用:
+
+    匹配标签
+    eg:<hr size=14>
+    "<hr( +size *= *[0-9]+)? *>";
+
+    匹配A股代码
+    eg:"\\$[0-9]{6}[0-9a-zA-Z\u4e00-\u9fff]+\\$";
+    "$000001上证指数$";
+
+    匹配美元
+    eg:"\\$[0-9]+(.[0-9]{2})?";
+       "$1000.58";
+
+    匹配时间
+    eg:"([0-9]|1[012]):[0-5][0-9] (a|p)m";
+      "11:30 pm";
+
+    24小时制时间 00:00 23:59 8:10
+    eg:"2[0-3]|[01]?[0-9]:[0-5][0-9]";
+    "08:01";
+
+<br />
+
+----
+
+<br />
+
+## 常用简记法
+    \t  制表符
+    \n  换行符
+    \r  回车符
+    \s  任何"空白"字符(包括 空格符、制表符、进纸符)
+    \S  除"\s" 之外的任何字符
+    \w  [a-zA-Z0-9] (在“\w”中很有用,可以用来匹配一个单词)
+    \W  除"\w" 之外的任何字符,即[^a-zA-Z0-9]
+    \d ［0-9］,即数字
+    \D  除"\d"外的任何字符, 即[^0-9]
+
+
+
+
